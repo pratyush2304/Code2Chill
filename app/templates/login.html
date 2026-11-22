@@ -1,0 +1,4 @@
+{% extends "page.html" %}{% block title %}Log in{% endblock %}{% block h1 %}Welcome back{% endblock %}
+{% block body %}<form method="post" class="card p-6 grid gap-4 max-w-xl"><input type="hidden" name="csrf" value="{{ csrf }}">
+<label class="grid gap-2 text-sm text-mute">Email or username<input class="field text-paper" name="identity" autocomplete="username" required></label><label class="grid gap-2 text-sm text-mute">Password<input class="field text-paper" type="password" name="password" autocomplete="current-password" data-password required></label>
+{% if error %}<p role="alert" class="text-red-400">{{ error }}</p>{% endif %}<button class="btn btn-acid w-fit">Log in</button><p class="text-sm text-mute">New here? <a class="link-u text-acid" href="/register">Create an account</a></p></form>{% endblock %}

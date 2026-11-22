@@ -1,0 +1,9 @@
+{
+  "name": "code2chill-css",
+  "private": true,
+  "scripts": {
+    "css": "tailwindcss -i assets/input.css -o app/static/css/app.css --minify",
+    "css:watch": "tailwindcss -i assets/input.css -o app/static/css/app.css --watch"
+  },
+  "devDependencies": { "@tailwindcss/cli": "^4.0.0", "tailwindcss": "^4.0.0" }
+}

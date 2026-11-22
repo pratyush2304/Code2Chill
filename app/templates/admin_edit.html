@@ -1,0 +1,6 @@
+{% extends "page.html" %}{% from "_macros.html" import csrf_field, err with context %}
+{% block title %}Edit {{ title }}{% endblock %}{% block h1 %}Edit {{ title }}{% endblock %}
+{% block body %}<form method="post" class="card p-6 grid sm:grid-cols-2 gap-4 max-w-3xl">{{ csrf_field() }}
+{% for n, label, kind, required in spec %}{% if kind == 'bool' %}<label class="flex items-center gap-2 text-sm text-mute"><input type="checkbox" name="{{ n }}" {% if form.get(n) %}checked{% endif %} class="size-4 accent-[var(--color-acid)]">{{ label }}</label>
+{% else %}<label class="grid gap-2 text-sm text-mute">{{ label }}<input name="{{ n }}" value="{{ form.get(n) or '' }}" {{ 'required' if required }} class="field text-paper" type="{{ 'date' if kind == 'date' else 'number' if kind == 'int' else 'url' if kind == 'url' else 'text' }}">{{ err(errors,n) }}</label>{% endif %}{% endfor %}
+{{ err(errors) }}<div class="sm:col-span-2 flex gap-3"><button class="btn btn-acid">Save changes</button><a class="btn" href="/admin?tab={{ tab }}">Cancel</a></div></form>{% endblock %}

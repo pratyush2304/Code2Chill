@@ -1,0 +1,4 @@
+{% extends "page.html" %}{% block title %}Create account{% endblock %}{% block h1 %}Join the community{% endblock %}
+{% block body %}<form method="post" class="card p-6 grid gap-4 max-w-xl"><input type="hidden" name="csrf" value="{{ csrf }}">
+{% for n,l,t in [('name','Full name','text'),('email','Email','email'),('username','Username','text'),('password','Password','password')] %}<label class="grid gap-2 text-sm text-mute">{{ l }}<input class="field text-paper" type="{{ t }}" name="{{ n }}" {% if n != 'password' %}value="{{ form.get(n,'') }}"{% endif %} {% if n == 'password' %}minlength="8" autocomplete="new-password" data-password{% endif %} required></label>{% endfor %}
+{% if error %}<p role="alert" class="text-red-400">{{ error }}</p>{% endif %}<button class="btn btn-acid w-fit">Create account</button><p class="text-sm text-mute">Already a member? <a class="link-u text-acid" href="/login">Log in</a></p></form>{% endblock %}

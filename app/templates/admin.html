@@ -1,0 +1,17 @@
+{% extends "page.html" %}{% from "_macros.html" import csrf_field, err, empty with context %}
+{% block title %}Admin{% endblock %}{% block h1 %}Admin{% endblock %}
+{% block body %}
+<div class="flex gap-2 flex-wrap mb-8">{% for t in tabs %}<a href="/admin?tab={{ t }}" aria-pressed="{{ 'true' if t == tab else 'false' }}" class="btn {{ 'btn-acid' if t == tab }}">{{ t }}</a>{% endfor %}
+  <form method="post" action="/admin/logout" class="ml-auto">{{ csrf_field() }}<button class="btn">Sign out</button></form></div>
+{% if spec %}<form method="post" action="/admin/{{ tab }}" class="grid sm:grid-cols-2 gap-3 mb-10">{{ csrf_field() }}
+  {% for n, l, k, r in spec %}
+    {% if k == 'bool' %}<label class="flex items-center gap-2 text-sm text-mute"><input type="checkbox" name="{{ n }}" checked class="size-4 accent-[var(--color-acid)]">{{ l }}</label>
+    {% else %}<div><input name="{{ n }}" aria-label="{{ l }}" placeholder="{{ l }}{{ ' *' if r }}" {{ 'required' if r }} value="{{ form.get(n) or '' }}" class="field" type="{{ 'date' if k == 'date' else 'number' if k == 'int' else 'url' if k == 'url' else 'text' }}">{{ err(errors, n) }}</div>{% endif %}
+  {% endfor %}<button class="btn btn-acid w-fit">Add</button></form>{% endif %}
+{% if rows %}<ul class="divide-y divide-line border-y border-line">{% for id, title, meta, status in rows %}
+  <li class="py-3 flex justify-between gap-4 text-sm"><span class="min-w-0 break-words">{{ title }} <span class="text-mute">{{ meta }}</span>{% if status %} <span class="font-mono text-xs text-acid">[{{ status }}]</span>{% endif %}</span>
+    <span class="flex gap-2 shrink-0">
+      {% if tab in ['events', 'projects', 'team'] %}<a class="btn !py-1" href="/admin/{{ tab }}/{{ id }}/edit">Edit</a>{% endif %}
+      {% if tab == 'applications' %}{% for s in ['accepted', 'rejected'] %}<form method="post" action="/admin/applications/{{ id }}/status">{{ csrf_field() }}<input type="hidden" name="status" value="{{ s }}"><button class="btn !py-1" aria-pressed="{{ 'true' if status == s else 'false' }}">{{ s }}</button></form>{% endfor %}{% endif %}
+      {% if tab != 'users' %}<form method="post" action="/admin/{{ tab }}/{{ id }}/delete" data-confirm="Delete this item?">{{ csrf_field() }}<button class="btn !py-1">Delete</button></form>{% endif %}</span></li>{% endfor %}</ul>
+{% else %}{{ empty('Nothing here yet.', '/admin?tab=' ~ tab) }}{% endif %}{% endblock %}

@@ -1,0 +1,13 @@
+{% extends "page.html" %}
+{% macro avatar(name, big=False) %}<span aria-hidden="true" class="grid shrink-0 place-items-center rounded-full border border-line font-mono text-acid {{ 'size-16 text-lg' if big else 'size-12 text-sm' }}">{{ initials(name) }}</span>{% endmacro %}
+{% block title %}Team{% endblock %}{% block h1 %}Team{% endblock %}
+{% block body %}
+<section class="mb-16"><h2 class="mb-6 flex items-center gap-3 font-display text-2xl">Club leader</h2>
+  <div class="reveal card card-acid flex items-center gap-5 p-6 sm:max-w-md">{{ avatar(leader.name, true) }}<div><p class="font-display text-2xl">{{ leader.name }}</p><p class="text-sm text-acid">{{ leader.role }}</p></div></div></section>
+<section class="mb-16"><h2 class="mb-6 flex items-center gap-3 font-display text-2xl">Core members <span class="rounded-full border border-line px-2.5 py-0.5 font-mono text-xs text-mute">{{ core|length }}</span></h2>
+  <ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{% for p in core %}<li class="reveal card lift flex items-center gap-4 p-5" style="--d:{{ (loop.index0 % 3)*60 }}ms">
+    {{ avatar(p.name) }}<div class="min-w-0"><h3 class="font-display text-lg">{{ p.name }}</h3>{% if p.role %}<p class="text-sm text-mute">{{ p.role }}</p>{% endif %}
+      <span class="mt-2 inline-block rounded-full border border-line px-2.5 py-0.5 text-xs text-acid">Core member</span></div></li>{% endfor %}</ul></section>
+{% if more %}<section><h2 class="mb-6 font-display text-2xl">More members</h2><ul class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">{% for m in more %}
+  <li class="reveal card lift p-6" style="--d:{{ (loop.index0 % 3)*60 }}ms">{{ avatar(m.name) }}<h3 class="mt-4 font-display text-xl">{{ m.name }}</h3><p class="text-sm text-acid">{{ m.role }}</p><p class="mt-2 text-sm text-mute">{{ m.bio }}</p></li>{% endfor %}</ul></section>{% endif %}
+{% endblock %}

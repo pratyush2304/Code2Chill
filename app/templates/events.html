@@ -1,0 +1,7 @@
+{% extends "page.html" %}{% from "_macros.html" import event_row, empty with context %}
+{% block title %}Events{% endblock %}{% block h1 %}Events{% endblock %}
+{% block body %}
+<div class="flex gap-2 mb-8 flex-wrap" id="cats">{% for c in cats %}<button type="button" data-cat="{{ c }}" aria-pressed="{{ 'true' if loop.first else 'false' }}" class="btn {{ 'btn-acid' if loop.first }}">{{ c }}</button>{% endfor %}</div>
+<label class="block mb-6 max-w-md"><span class="sr-only">Search events</span><input id="event-search" class="field" type="search" placeholder="Search events"></label>
+{% if events %}<ul id="event-list" class="divide-y divide-line border-y border-line">{% for e in events %}{{ event_row(e, loop.index0) }}{% endfor %}</ul>
+{% else %}{{ empty('No events yet. Check back soon.', '/events') }}{% endif %}{% endblock %}

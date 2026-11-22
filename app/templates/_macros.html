@@ -1,0 +1,15 @@
+{% macro csrf_field() %}<input type="hidden" name="csrf" value="{{ csrf }}">{% endmacro %}
+{% macro err(errors, key='_') %}{% if errors.get(key) %}<p role="alert" class="flex items-center gap-2 text-red-400 text-sm">{{ icon('alert', 16) }}{{ errors[key] }}</p>{% endif %}{% endmacro %}
+{% macro field(name, label, kind, required, form, errors) %}
+<label class="grid gap-1 text-sm text-mute">{{ label }}
+  {% if kind == 'area' %}<textarea {{ 'required' if required }} name="{{ name }}" class="field min-h-32 text-paper">{{ form.get(name) or '' }}</textarea>
+  {% else %}<input {{ 'required' if required }} name="{{ name }}" type="{{ 'email' if kind == 'email' else 'text' }}" value="{{ form.get(name) or '' }}" class="field text-paper">{% endif %}
+  {{ err(errors, name) }}</label>
+{% endmacro %}
+{% macro event_row(e, i=0) %}
+<li class="reveal" style="--d:{{ [i*60, 300]|min }}ms" data-cat="{{ e.category }}">
+  <a href="/events/{{ e.id }}" class="group grid md:grid-cols-[1fr_auto] items-center gap-2 py-6 transition-colors hover:text-acid">
+    <span class="font-display text-2xl transition-transform duration-300 group-hover:translate-x-2">{{ e.title }}</span>
+    <span class="flex items-center gap-2 text-mute font-mono text-sm">{{ fmt_date(e.date) }} · {{ e.category }}{{ icon('arrow-up-right', 18, 'opacity-0 -translate-x-1 transition group-hover:opacity-100 group-hover:translate-x-0') }}</span></a></li>
+{% endmacro %}
+{% macro empty(text, href) %}<div class="flex flex-wrap items-center gap-3 rounded-xl border border-line p-6 text-mute">{{ icon('inbox') }}{{ text }}<a class="btn ml-auto" href="{{ href }}">Refresh</a></div>{% endmacro %}

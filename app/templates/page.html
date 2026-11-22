@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% macro flash_msg(flash) %}{% if flash %}<p role="status" class="flash-toast rise flex items-center gap-3 {{ 'text-acid' if flash.kind == 'ok' else 'text-red-400' }}">{{ icon('check' if flash.kind == 'ok' else 'alert') }}{{ flash.text }}</p>{% endif %}{% endmacro %}
+{% block content %}<main id="main" class="mx-auto max-w-6xl px-6 pt-32 pb-24">
+  <h1 class="font-display text-5xl md:text-7xl font-extrabold tracking-tight mb-12 rise">{% block h1 %}{% endblock %}</h1>
+  <div class="rise" style="--d:100ms">{{ flash_msg(flash) }}{% block body %}{% endblock %}</div></main>{% endblock %}

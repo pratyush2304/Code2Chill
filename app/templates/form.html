@@ -1,0 +1,5 @@
+{% extends "page.html" %}{% from "_macros.html" import csrf_field, field with context %}
+{% block title %}{{ title }}{% endblock %}{% block h1 %}{{ title }}{% endblock %}
+{% block body %}<form method="post" class="grid gap-4 max-w-xl">{{ csrf_field() }}
+  {% for n, l, k, r in spec %}{{ field(n, l, k, r, form, errors) }}{% endfor %}
+  <button class="btn btn-acid w-fit">{{ cta }}</button></form>{% endblock %}

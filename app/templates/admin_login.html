@@ -1,0 +1,6 @@
+{% extends "page.html" %}{% from "_macros.html" import csrf_field with context %}
+{% block title %}Admin{% endblock %}{% block h1 %}Admin{% endblock %}
+{% block body %}<form method="post" action="/admin/login" class="grid gap-4 max-w-sm">{{ csrf_field() }}
+  <label class="grid gap-1 text-sm text-mute">Admin username or email<input required type="text" name="email" autocomplete="username" class="field text-paper"></label>
+  <label class="grid gap-1 text-sm text-mute">Password<input required type="password" name="password" autocomplete="current-password" class="field text-paper"></label>
+  {% if error %}<p role="alert" class="text-red-400">{{ error }}</p>{% endif %}<button class="btn btn-acid w-fit">Sign in</button></form>{% endblock %}

@@ -1,0 +1,26 @@
+{% extends "base.html" %}{% from "_macros.html" import event_row, empty with context %}
+{% block content %}<main id="main">
+<section class="relative overflow-hidden"><div class="glow" aria-hidden="true"></div>
+  <div class="relative mx-auto max-w-6xl px-6 pt-40 pb-24">
+    <p class="font-mono text-sm text-acid mb-6 rise">Coding &amp; technology club — Chitkara University, Rajpura</p>
+    <h1 class="font-display font-extrabold tracking-tighter leading-[.9] text-[clamp(3.5rem,13vw,11rem)]">
+      <span class="block rise" style="--d:80ms">Build things.</span><span class="block rise text-mute" style="--d:200ms">Then relax.</span></h1>
+    <div class="mt-12 grid md:grid-cols-[1fr_auto] gap-8 items-end rise" style="--d:340ms">
+      <p class="max-w-md text-mute">Code2Chill is a student coding and technology club under the Office of Student Life at Chitkara University, Rajpura.</p>
+      <a href="/join" class="btn btn-acid group">Join the club {{ icon('arrow-up-right', 20, 'transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5') }}</a></div></div></section>
+
+<section class="mx-auto max-w-6xl px-6 pb-24"><div class="reveal max-w-3xl"><h2 class="font-display text-3xl mb-6">About the club</h2>
+  <p class="rounded-xl border-l-2 border-acid bg-acid/5 p-5 font-display text-lg md:text-xl">{{ about.lead }}</p>
+  <div class="mt-6 grid gap-4 text-mute">{% for t in about.body %}<p {% if not loop.first %}data-more hidden{% endif %}>{{ t }}</p>{% endfor %}</div>
+  <button class="btn mt-6" id="more-btn" aria-expanded="false"><span>Read more</span>{{ icon('chevron-down', 16, 'transition-transform') }}</button></div></section>
+
+<section class="mx-auto max-w-6xl px-6 pb-24"><div class="reveal flex items-end justify-between mb-6"><h2 class="font-display text-3xl">Events</h2>
+  <a href="/events" class="link-u inline-flex items-center gap-1 text-sm text-mute hover:text-paper">All events {{ icon('arrow-right', 16) }}</a></div>
+  {% if events %}<ul class="divide-y divide-line border-y border-line">{% for e in events %}{{ event_row(e, loop.index0) }}{% endfor %}</ul>
+  {% else %}{{ empty('No events published yet.', '/') }}{% endif %}</section>
+
+<section class="mx-auto max-w-6xl px-6 pb-24"><ul class="grid md:grid-cols-3 gap-4">
+{% for to, ic, t, d in [('/projects','folder','Projects','See what members have built.'),('/team','users','Team','Meet the people who run the club.'),('/join','user-plus','Join','Apply for membership.')] %}
+  <li class="reveal" style="--d:{{ loop.index0*80 }}ms"><a href="{{ to }}" class="card lift group grid gap-10 p-6 h-full">{{ icon(ic, 24, 'text-acid') }}
+    <span><span class="flex items-center justify-between font-display text-xl">{{ t }}{{ icon('arrow-up-right', 20, 'text-mute transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:text-acid') }}</span><span class="text-sm text-mute">{{ d }}</span></span></a></li>{% endfor %}
+</ul></section></main>{% endblock %}

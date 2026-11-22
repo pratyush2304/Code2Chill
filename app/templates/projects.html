@@ -1,0 +1,9 @@
+{% extends "page.html" %}{% from "_macros.html" import empty with context %}
+{% block title %}Projects{% endblock %}{% block h1 %}Projects{% endblock %}
+{% block body %}{% if projects %}<label class="block mb-6 max-w-md"><span class="sr-only">Search projects</span><input id="project-search" class="field" type="search" placeholder="Search projects or tech stack"></label><ul id="project-list" class="grid md:grid-cols-2 gap-4">{% for p in projects %}
+<li data-search="{{ (p.name ~ ' ' ~ p.description ~ ' ' ~ (p.stack|join(' ')))|lower }}" class="reveal card lift p-6 grid gap-3 content-start" style="--d:{{ [loop.index0*60, 300]|min }}ms">
+  {% if p.image %}<img src="{{ p.image }}" alt="" loading="lazy" class="aspect-video w-full rounded-lg object-cover">{% endif %}
+  <h2 class="font-display text-2xl">{{ p.name }}</h2><p class="text-mute">{{ p.description }}</p>
+  {% if p.stack %}<ul class="flex flex-wrap gap-2">{% for s in p.stack %}<li class="rounded-md border border-line px-2 py-0.5 font-mono text-xs text-mute">{{ s }}</li>{% endfor %}</ul>{% endif %}
+  <div class="flex gap-4 text-sm">{% for label, href in [('GitHub', p.github), ('Demo', p.demo)] if href %}<a class="link-u inline-flex items-center gap-1 hover:text-acid" href="{{ href }}" target="_blank" rel="noreferrer noopener">{{ label }}{{ icon('arrow-up-right', 16) }}</a>{% endfor %}</div></li>{% endfor %}</ul>
+{% else %}{{ empty('No projects added yet.', '/projects') }}{% endif %}{% endblock %}

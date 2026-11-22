@@ -1,0 +1,13 @@
+{% extends "page.html" %}{% from "_macros.html" import csrf_field, field, err with context %}
+{% block title %}{{ e.title }}{% endblock %}{% block h1 %}{{ e.title }}{% endblock %}
+{% block body %}<div class="grid gap-10 md:grid-cols-[1fr_24rem] items-start">
+  <div class="grid gap-6"><a href="/events" class="link-u w-fit inline-flex items-center gap-2 text-sm text-mute hover:text-paper">{{ icon('arrow-left', 18) }}All events</a>
+    <p class="text-mute max-w-xl">{{ e.summary }}</p>
+    <ul class="grid gap-3 font-mono text-sm">
+      <li class="flex items-center gap-3">{{ icon('calendar', 18, 'text-acid') }}{{ fmt_date(e.date) }}</li>
+      <li class="flex items-center gap-3">{{ icon('map-pin', 18, 'text-acid') }}{{ e.venue or 'Venue to be announced' }}</li>
+      {% if e.capacity %}<li class="flex items-center gap-3">{{ icon('users', 18, 'text-acid') }}{{ e.capacity }} seats</li>{% endif %}</ul></div>
+  <div class="card p-6"><h2 class="font-display text-xl mb-4">Register</h2>
+    <form method="post" action="/events/{{ e.id }}/register" class="grid gap-4">{{ csrf_field() }}
+      {{ field('name', 'Full name', 'text', true, form, errors) }}{{ field('email', 'Email', 'email', true, form, errors) }}
+      {{ err(errors) }}<button class="btn btn-acid w-fit">Register</button></form></div></div>{% endblock %}
